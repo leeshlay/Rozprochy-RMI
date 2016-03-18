@@ -29,7 +29,7 @@ public class Game extends Thread {
         try {
             System.out.println("New game started between " + user1.getNick() +" and " + user2.getNick());
 
-            while (!check()) {
+            while (!check() && !isFull()) {
 
                 user1.showBoard(board);
                 put(user1.makeMove(board), this.user1sign);
@@ -42,17 +42,26 @@ public class Game extends Thread {
                     break;
                 }
 
-
+                user1.showBoard(board);
                 user2.showBoard(board);
                 put(user2.makeMove(board), this.user2sign);
                 if (check()) {
                     System.out.println(user2.getNick() + " wins the game!");
-                    user2.winning();
-                    user2.showBoard(board);
                     user1.loosing();
                     user1.showBoard(board);
+                    user2.winning();
+                    user2.showBoard(board);
                     break;
                 }
+                user2.showBoard(board);
+            }
+
+            if (isFull()) {
+                System.out.println("No one wins");
+                user1.trap();
+                user1.showBoard(board);
+                user2.trap();
+                user2.showBoard(board);
             }
 
         }  catch (RemoteException e) {
@@ -105,5 +114,14 @@ public class Game extends Thread {
         }
 
         return false;
+    }
+
+    public Boolean isFull() {
+
+        if (board[0] == ' ' || board[1] == ' ' || board[2] == ' ' || board[3] == ' ' || board[4] == ' ' ||
+                board[5] == ' ' || board[6] == ' ' ||board[7] == ' ' || board[8] == ' ') {
+            return false;
+        }
+        return true;
     }
 }

@@ -48,4 +48,14 @@ public class ComputerUser extends UnicastRemoteObject implements IUser {
     public void loosing() throws RemoteException {
 
     }
+
+    @Override
+    public void trap() throws RemoteException {
+
+    }
+
+    @Override
+    public void waitForMove() throws RemoteException {
+
+    }
 }

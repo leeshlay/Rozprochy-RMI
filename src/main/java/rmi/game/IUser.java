@@ -15,4 +15,6 @@ public interface IUser extends Remote, Serializable {
     public void showBoard(char[] board) throws RemoteException;
     public void winning() throws RemoteException;
     public void loosing() throws RemoteException;
+    public void trap() throws RemoteException;
+    public void waitForMove() throws RemoteException;
 }
