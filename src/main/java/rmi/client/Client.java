@@ -35,9 +35,11 @@ public class Client {
 
             user.setNick(nick);
 
-            //z kim grac? 0 czy 1
+            System.out.println("Who do you want to play with? 0 - computer, 1 - human");
 
-            server.register(user, 0);
+            int withWho = scan.nextInt();
+
+            server.register(user, withWho);
 
 
 

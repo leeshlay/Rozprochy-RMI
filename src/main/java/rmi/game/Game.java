@@ -26,29 +26,40 @@ public class Game extends Thread {
 
     public void run() {
 
-        System.out.println("New game started");
+        try {
+            System.out.println("New game started between " + user1.getNick() +" and " + user2.getNick());
 
-        while (!check()) {
-            //play
+            while (!check()) {
 
-            try {
-                print();
                 user1.showBoard(board);
-                put(user1.makeMove(),this.user1sign);
-            } catch (RemoteException e) {
-                e.printStackTrace();
+                put(user1.makeMove(board), this.user1sign);
+                if (check()) {
+                    System.out.println(user1.getNick() + " wins the game!");
+                    user1.winning();
+                    user1.showBoard(board);
+                    user2.loosing();
+                    user2.showBoard(board);
+                    break;
+                }
+
+
+                user2.showBoard(board);
+                put(user2.makeMove(board), this.user2sign);
+                if (check()) {
+                    System.out.println(user2.getNick() + " wins the game!");
+                    user2.winning();
+                    user2.showBoard(board);
+                    user1.loosing();
+                    user1.showBoard(board);
+                    break;
+                }
             }
 
-            if (check()) { break; }
-
-            try {
-                print();
-                put(user2.makeMove(),this.user2sign);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+        }  catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
+
 
     public Boolean put(int n, char x) {
 
@@ -94,15 +105,5 @@ public class Game extends Thread {
         }
 
         return false;
-    }
-
-    public void print() throws RemoteException {
-        System.out.println(board[0] + " | " + board[1] + " | " + board[2]);
-        System.out.println("-------------------");
-        System.out.println(board[3] + " | " + board[4] + " | " + board[5]);
-        System.out.println("-------------------");
-        System.out.println(board[6] + " | " + board[7] + " | " + board[8]);
-        System.out.println("\n\n\n");
-
     }
 }

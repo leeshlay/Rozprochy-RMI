@@ -11,17 +11,17 @@ public class ComputerUser extends UnicastRemoteObject implements IUser {
     public ComputerUser() throws RemoteException {
     }
 
-    @Override
-    public Boolean put(int n, char x) throws RemoteException {
 
-
-
-        return null;
-    }
 
     @Override
-    public int makeMove() throws RemoteException {
-        return new Random().nextInt(9);
+    public int makeMove(char[] board) throws RemoteException {
+
+        int rand = new Random().nextInt(9);
+        while (board[rand] != ' ') {
+            rand = new Random().nextInt(9);
+        }
+
+        return rand;
     }
 
     @Override
@@ -31,11 +31,21 @@ public class ComputerUser extends UnicastRemoteObject implements IUser {
 
     @Override
     public String getNick() throws RemoteException {
-        return null;
+        return "Computer";
     }
 
     @Override
     public void showBoard(char[] board) throws RemoteException {
+
+    }
+
+    @Override
+    public void winning() throws RemoteException {
+
+    }
+
+    @Override
+    public void loosing() throws RemoteException {
 
     }
 }

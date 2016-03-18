@@ -16,16 +16,20 @@ public class HumanUser extends UnicastRemoteObject implements IUser {
     }
 
 
-    @Override
-    public Boolean put(int n, char x) throws RemoteException {
-        return null;
-    }
 
     @Override
-    public int makeMove() throws RemoteException {
+    public int makeMove(char[] board) throws RemoteException {
 
-        System.out.println("Enter where to make move [0-8]");
-        int move = scan.nextInt();
+        int move;
+        do {
+            System.out.println("Enter where to make move [0-8]");
+            move = scan.nextInt();
+
+            if (board[move] != ' ') {
+                System.out.println("Chosen place is not empty.");
+            }
+        } while(board[move] != ' ');
+
         return move;
     }
 
@@ -49,5 +53,15 @@ public class HumanUser extends UnicastRemoteObject implements IUser {
         System.out.println(board[6] + " | " + board[7] + " | " + board[8]);
         System.out.println("\n\n\n");
 
+    }
+
+    @Override
+    public void winning() throws RemoteException {
+        System.out.println("You won!");
+    }
+
+    @Override
+    public void loosing() throws RemoteException {
+        System.out.println("You lost :c");
     }
 }
