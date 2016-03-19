@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class HumanUser extends UnicastRemoteObject implements IUser {
 
     String nick;
+    char sign;
     static Scanner scan = new Scanner(System.in);
 
     public HumanUser() throws RemoteException {
@@ -56,6 +57,7 @@ public class HumanUser extends UnicastRemoteObject implements IUser {
     @Override
     public void showBoard(char[] board) throws RemoteException {
 
+        System.out.println("\n");
         System.out.println(board[0] + " | " + board[1] + " | " + board[2]);
         System.out.println("-------------------");
         System.out.println(board[3] + " | " + board[4] + " | " + board[5]);
@@ -83,5 +85,15 @@ public class HumanUser extends UnicastRemoteObject implements IUser {
     @Override
     public void waitForMove() throws RemoteException {
         System.out.println("Waiting for enemy's move...");
+    }
+
+    @Override
+    public void setSign(char x) throws RemoteException {
+        this.sign = x;
+    }
+
+    @Override
+    public char getSign() throws RemoteException {
+        return this.sign;
     }
 }

@@ -17,4 +17,6 @@ public interface IUser extends Remote, Serializable {
     public void loosing() throws RemoteException;
     public void trap() throws RemoteException;
     public void waitForMove() throws RemoteException;
+    public void setSign(char x) throws RemoteException;
+    public char getSign() throws RemoteException;
 }

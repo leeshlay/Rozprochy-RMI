@@ -12,16 +12,11 @@ public class Game extends Thread {
 
     IUser user1;
     IUser user2;
-    char user1sign;
-    char user2sign;
-    int starting;
 
     public Game(IUser user1, IUser user2) {
         this.user1 = user1;
         this.user2 = user2;
-        this.user1sign = 'x';
-        this.user2sign = 'o';
-        starting = new Random().nextInt(2);
+
     }
 
     public void run() {
@@ -29,34 +24,46 @@ public class Game extends Thread {
         try {
             System.out.println("New game started between " + user1.getNick() +" and " + user2.getNick());
 
+            user1.setSign('x');
+            user2.setSign('o');
+
             while (!check() && !isFull()) {
 
                 user1.showBoard(board);
-                put(user1.makeMove(board), this.user1sign);
+                put(user1.makeMove(board), user1.getSign());
+                user1.showBoard(board);
+
+
                 if (check()) {
                     System.out.println(user1.getNick() + " wins the game!");
                     user1.winning();
-                    user1.showBoard(board);
+                //    user1.showBoard(board);
                     user2.loosing();
                     user2.showBoard(board);
                     break;
                 }
 
-                user1.showBoard(board);
+                user1.waitForMove();
+
                 user2.showBoard(board);
-                put(user2.makeMove(board), this.user2sign);
+                put(user2.makeMove(board), user2.getSign());
+                user2.showBoard(board);
+
+
                 if (check()) {
                     System.out.println(user2.getNick() + " wins the game!");
                     user1.loosing();
                     user1.showBoard(board);
                     user2.winning();
-                    user2.showBoard(board);
+                 //   user2.showBoard(board);
                     break;
                 }
-                user2.showBoard(board);
+
+                user2.waitForMove();
+
             }
 
-            if (isFull()) {
+            if (isFull() && !check()) {
                 System.out.println("No one wins");
                 user1.trap();
                 user1.showBoard(board);
@@ -106,7 +113,7 @@ public class Game extends Thread {
         }
 
         //cross
-        if (board[0] == board[4] && board[4] == board[7] && board[0] != ' ') {
+        if (board[0] == board[4] && board[4] == board[8] && board[0] != ' ') {
             return true;
         }
         if (board[2] == board[4] && board[4] == board[6] && board[2] != ' ') {

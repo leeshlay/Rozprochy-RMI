@@ -11,5 +11,5 @@ import java.rmi.RemoteException;
 public interface IServer extends Remote {
 
     public void register(IUser user, int rival) throws RemoteException, InterruptedException;
-
-}
+    public Boolean checkNick(IUser user) throws RemoteException;
+    }

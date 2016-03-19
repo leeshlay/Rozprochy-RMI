@@ -1,17 +1,12 @@
 package rmi.client;
 
-import com.sun.org.apache.bcel.internal.generic.IUSHR;
-import com.sun.org.apache.xerces.internal.parsers.CachingParserPool;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import rmi.game.HumanUser;
-import rmi.game.IGame;
-import rmi.game.IUser;
 import rmi.server.IServer;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Scanner;
 
 /**
@@ -23,17 +18,31 @@ public class Client {
 
     public static void main(String[] args) {
 
+        if (args.length != 3) {
+            System.out.println("Usage: <HOST> <PORT> <NICK>");
+        }
+
+        String host = args[0];
+        String port = args[1];
+        String nick = args[2];
+
         try {
 
-            Object o = Naming.lookup("rmi://localhost:1099/server");
-            IServer server = (IServer) o;
+            Registry registry = LocateRegistry.getRegistry(host, Integer.parseInt(port));
+            IServer server = (IServer) registry.lookup("server");
+
+        //    Object o = Naming.lookup("rmi://localhost:1099/server");
+        //    IServer server = (IServer) o;
 
             HumanUser user = new HumanUser();
 
-            System.out.println("Enter your nickname");
-            String nick = scan.nextLine();
-
             user.setNick(nick);
+
+            if (!server.checkNick(user)) {
+                System.out.println("This nick is taken. Try another one");
+                System.exit(-1);
+            }
+
 
             System.out.println("Who do you want to play with? 0 - computer, 1 - human");
 
@@ -43,7 +52,7 @@ public class Client {
 
 
 
-        } catch (NotBoundException | MalformedURLException | RemoteException | InterruptedException e) {
+        } catch (NotBoundException | RemoteException | InterruptedException e) {
             e.printStackTrace();
         }
     }

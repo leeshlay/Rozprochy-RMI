@@ -16,7 +16,8 @@ public class ServerImpl implements IServer {
 
     public void register(IUser user, int rival) throws RemoteException, InterruptedException {
         //user registeres
-        System.out.println("Hello in registering");
+        System.out.println(user.getNick() + " joins the server");
+
 
         Game game = null;
 
@@ -40,6 +41,13 @@ public class ServerImpl implements IServer {
             game.start();
             game.join();
         }
+    }
+
+    public Boolean checkNick(IUser user) throws RemoteException {
+        if (waitingUsers.contains(user.getNick())) {
+            return false;
+        }
+        return  true;
     }
 
 }
